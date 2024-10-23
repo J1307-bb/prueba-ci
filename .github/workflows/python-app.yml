@@ -1,0 +1,35 @@
+name: Python CI
+
+# Ejecutar cuando haya un push o pull request en la rama 'main'
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    # Usar una máquina con Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+    # Paso 1: Clonar el repositorio
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Paso 2: Instalar la versión de Python
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
+
+    # Paso 3: Instalar dependencias
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Paso 4: Ejecutar pruebas con pytest
+    - name: Run tests
+      run: |
+        pytest
